@@ -1,0 +1,98 @@
+<div class="container">
+	<h1>Cadastrar Frequência</h1>
+	<hr />
+	<form #frequenciaForm="ngForm" (submmit)="salvar()">
+		<div class="form-group">
+			<label for="turm">Turmas</label>
+			<select
+				[(ngModel)]="turma"
+				id="turm"
+				name="turm"
+				class="form-control col-5"
+				#turmaSelect="ngModel"
+				required
+				(change)="atualizaAlunos()"
+			>
+				<option *ngFor="let t of turmas" [value]="t.numero">{{ t.nome }}</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label for="alun">Alunos:</label>
+			<select
+				[(ngModel)]="aluno"
+				id="alun"
+				name="alun"
+				class="form-control col-5"
+				#alunoSelect="ngModel"
+				required
+			>
+				<option *ngFor="let a of alunos" [value]="a.codigo"> {{ a.nome }} </option>
+			</select>
+		</div>
+		<div class="form-group row">
+			<div class="form-group ml-3">
+				<label for="nt1">Nota 1:</label>
+				<input #nota1Input [(ngModel)]="nota1" id="nt1" name="nt1" type="number" class="form-control col-5" />
+			</div>
+			<div class="form-group">
+				<label for="nt1">Nota 2:</label>
+				<input #nota2Input [(ngModel)]="nota2" id="nt2" name="nt2" type="number" class="form-control col-5" />
+			</div>
+			<div class="form-group">
+				<label for="freq">Frequência:</label>
+				<input
+					#frequenciaInput="ngModel"
+					[(ngModel)]="frequencia"
+					id="freq"
+					name="freq"
+					type="number"
+					class="form-control col-5"
+					required
+				/>
+			</div>
+		</div>
+
+		<button [disabled]="frequenciaForm.invalid" type="button" class="btn btn-primary mr-3" (click)="salvar()">
+			Salvar
+		</button>
+		<button class="btn btn-secondary" type="reset">Limpar</button>
+	</form>
+	<hr />
+	<h1>Registros</h1>
+	<br />
+	<table class="table table-hover table-stripped table-bordered">
+		<thead>
+			<tr>
+				<th>Turma</th>
+				<th>Aluno</th>
+				<th>Frequência</th>
+				<th>Nota 1</th>
+				<th>Nota 2</th>
+				<th>Média</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let registro of registros">
+				<td>{{ encontrarTurma(registro.numeroTurma) }}</td>
+				<td>{{ encontrarAluno(registro.numeroTurma, registro.codigoAluno) }}</td>
+				<td>{{ registro.frequencia }}</td>
+				<td>{{ registro.nota1 }}</td>
+				<td>{{ registro.nota2 }}</td>
+				<td>{{ calcularMedia(registro.nota1, registro.nota2) }}</td>
+			</tr>
+		</tbody>
+	</table>
+	<hr />
+	<h1>Informações sumarizadas</h1>
+	<br />
+	<li>
+		Frequência média - <b>{{ calcularFrequenciaMedia() }}</b>
+	</li>
+	<li>
+		Média de nota 1 - <b>{{ calcularNota1Media() }}</b>
+	</li>
+	<li>
+		Média de nota 2 - <b>{{ calcularNota2Media() }}</b>
+	</li>
+</div>

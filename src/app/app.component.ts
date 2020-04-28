@@ -1,32 +1,90 @@
-import { Component } from '@angular/core';
+import { FrequenciaService } from "./frequencia.service";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-root',
-  template: `
-    <!--The content below is only a placeholder and can be replaced.-->
-    <div style="text-align:center" class="content">
-      <h1>
-        Welcome to {{title}}!
-      </h1>
-      <span style="display: block">{{ title }} app is running!</span>
-      <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-    </div>
-    <h2>Here are some links to help you start: </h2>
-    <ul>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-      </li>
-    </ul>
-    <router-outlet></router-outlet>
-  `,
-  styles: []
+	selector: "app-root",
+	templateUrl: "app.component.html",
+	styleUrls: [],
 })
-export class AppComponent {
-  title = 'frequencia';
+export class AppComponent implements OnInit {
+	turmas: Array<any> = [];
+	alunos: Array<any> = [];
+	registros: Array<any> = [];
+	turma = null;
+	aluno = null;
+	frequencia: number = null;
+	nota1: number = null;
+	nota2: number = null;
+
+	constructor(private service: FrequenciaService) {}
+
+	ngOnInit(): void {
+		this.service.lista().subscribe((dados: any) => (this.turmas = dados));
+	}
+
+	atualizaAlunos() {
+		this.turmas.find((t) => {
+			if (t.numero == this.turma) {
+				this.alunos = t.alunos;
+			}
+		});
+	}
+	salvar() {
+		this.registros.push({
+			numeroTurma: this.turma,
+			codigoAluno: this.aluno,
+			frequencia: this.frequencia,
+			nota1: this.nota1,
+			nota2: this.nota2,
+		});
+
+		this.redefinir();
+	}
+
+	redefinir() {
+		this.turma = null;
+		this.aluno = null;
+		this.nota1 = null;
+		this.nota2 = null;
+		this.frequencia = null;
+	}
+
+	encontrarTurma(numeroTurma) {
+		let turma = this.turmas.find((t) => t.numero == numeroTurma);
+		return `${turma.numero} - ${turma.nome}`;
+	}
+	encontrarAluno(numeroTurma, codigoAluno) {
+		let turma = this.turmas.find((t) => t.numero == numeroTurma);
+		let aluno = turma.alunos.find((a) => a.codigo == codigoAluno);
+
+		return `${aluno.codigo} - ${aluno.nome}`;
+	}
+
+	calcularMedia(nota1, nota2) {
+		return ((nota1 + nota2) / 2).toFixed(1);
+	}
+
+	checarNaN(media) {
+		if (isNaN(media)) {
+			return 0;
+		} else {
+			return media;
+		}
+	}
+
+	calcularFrequenciaMedia() {
+		let frequencias = this.registros.reduce((a, b) => a + b.frequencia, 0);
+		let media = parseFloat((frequencias / this.registros.length).toFixed(1));
+		return this.checarNaN(media);
+	}
+	calcularNota1Media() {
+		let nota1 = this.registros.reduce((a, b) => a + b.nota1, 0);
+		let media = parseFloat((nota1 / this.registros.length).toFixed(1));
+		return this.checarNaN(media);
+	}
+	calcularNota2Media() {
+		let nota2 = this.registros.reduce((a, b) => a + b.nota2, 0);
+		let media = parseFloat((nota2 / this.registros.length).toFixed(1));
+		return this.checarNaN(media);
+	}
 }

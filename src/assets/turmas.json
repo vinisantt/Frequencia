@@ -1,0 +1,68 @@
+[
+	{
+		"numero": "M1A",
+		"nome": "Primeiro Ano do Médio – Turma A",
+		"alunos": [
+			{
+				"codigo": "1",
+				"nome": "José Silva"
+			}
+		]
+	},
+	{
+		"numero": "M1B",
+		"nome": "Primeiro Ano do Médio – Turma B",
+		"alunos": [
+			{
+				"codigo": "1",
+				"nome": "Joana Dias"
+			},
+			{
+				"codigo": "2",
+				"nome": "Alexia Santos"
+			}
+		]
+	},
+	{
+		"numero": "M2A",
+		"nome": "Segundo Ano do Médio – Turma A",
+		"alunos": [
+			{
+				"codigo": "1",
+				"nome": "Jorge Shelder"
+			},
+			{
+				"codigo": "2",
+				"nome": "Aquiles Barbosa"
+			}
+		]
+	},
+	{
+		"numero": "M2B",
+		"nome": "Segundo Ano do Médio – Turma B",
+		"alunos": [
+			{
+				"codigo": "1",
+				"nome": "Fabiana dos Santos"
+			},
+			{
+				"codigo": "2",
+				"nome": "Rodrigo Charles"
+			}
+		]
+	},
+	{
+		"numero": "M3A",
+		"nome": "Terceiro Ano do Médio – Turma A",
+		"alunos": [
+			{
+				"codigo": "1",
+				"nome": "Aline Borges"
+			},
+			{
+				"codigo": "2",
+				"nome": "Marcia Ferreira"
+			}
+		]
+	}
+]
