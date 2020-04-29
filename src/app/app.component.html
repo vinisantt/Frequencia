@@ -1,9 +1,10 @@
 <div class="container">
 	<h1>Cadastrar Frequência</h1>
 	<hr />
-	<form #frequenciaForm="ngForm" (submmit)="salvar()">
+	<form #frequenciaForm="ngForm" (submit)="salvar(frequenciaForm)">
 		<div class="form-group">
-			<label for="turm">Turmas</label>
+			<label for="turm">Turmas<span class="required">*</span></label>
+
 			<select
 				[(ngModel)]="turma"
 				id="turm"
@@ -12,13 +13,17 @@
 				#turmaSelect="ngModel"
 				required
 				(change)="atualizaAlunos()"
+				[class.is-invalid]="turmaSelect.errors && (turmaSelect.dirty || turmaSelect.touched)"
 			>
 				<option *ngFor="let t of turmas" [value]="t.numero">{{ t.nome }}</option>
 			</select>
+			<span class="text-danger" *ngIf="turmaSelect?.errors?.required && turmaSelect.touched"
+				>É preciso selecionar uma turma!
+			</span>
 		</div>
 
 		<div class="form-group">
-			<label for="alun">Alunos:</label>
+			<label for="alun">Alunos<span class="required">*</span></label>
 			<select
 				[(ngModel)]="aluno"
 				id="alun"
@@ -26,21 +31,58 @@
 				class="form-control col-5"
 				#alunoSelect="ngModel"
 				required
+				[class.is-invalid]="alunoSelect.errors && (alunoSelect.dirty || alunoSelect.touched)"
 			>
 				<option *ngFor="let a of alunos" [value]="a.codigo"> {{ a.nome }} </option>
 			</select>
+			<span
+				class="text-danger"
+				*ngIf="
+					!turmaSelect.errors && alunoSelect?.errors?.required && (alunoSelect.dirty || alunoSelect.touched)
+				"
+				>É preciso selecionar um aluno!
+			</span>
+			<span class="text-danger" *ngIf="turmaSelect.errors && alunoSelect.touched"
+				>Selecione uma turma primeiro!
+			</span>
 		</div>
 		<div class="form-group row">
 			<div class="form-group ml-3">
-				<label for="nt1">Nota 1:</label>
-				<input #nota1Input [(ngModel)]="nota1" id="nt1" name="nt1" type="number" class="form-control col-5" />
+				<label for="nt1">Nota 1<span class="required">*</span></label>
+				<input
+					#nota1Input="ngModel"
+					[(ngModel)]="nota1"
+					id="nt1"
+					name="nt1"
+					type="number"
+					required
+					class="form-control col-5"
+					[class.is-invalid]="nota1Input.invalid && (nota1Input.dirty || nota1Input.touched)"
+				/>
+				<span class="text-danger" *ngIf="nota1Input?.errors && (nota1Input.dirty || nota1Input.touched)"
+					>Informe a nota 1!
+				</span>
 			</div>
 			<div class="form-group">
-				<label for="nt1">Nota 2:</label>
-				<input #nota2Input [(ngModel)]="nota2" id="nt2" name="nt2" type="number" class="form-control col-5" />
+				<label for="nt1">Nota 2<span class="required">*</span></label>
+				<input
+					#nota2Input="ngModel"
+					[(ngModel)]="nota2"
+					id="nt2"
+					name="nt2"
+					type="number"
+					class="form-control col-5"
+					required
+					[class.is-invalid]="nota2Input.invalid && (nota2Input.dirty || nota2Input.touched)"
+				/>
+				<span
+					class="text-danger"
+					*ngIf="nota2Input?.errors?.required && (nota2Input.dirty || nota2Input.touched)"
+					>Informe a nota 2!
+				</span>
 			</div>
 			<div class="form-group">
-				<label for="freq">Frequência:</label>
+				<label for="freq">Frequência<span class="required">*</span></label>
 				<input
 					#frequenciaInput="ngModel"
 					[(ngModel)]="frequencia"
@@ -49,14 +91,19 @@
 					type="number"
 					class="form-control col-5"
 					required
+					[class.is-invalid]="frequenciaInput.invalid && (frequenciaInput.dirty || frequenciaInput.touched)"
 				/>
+				<span
+					class="text-danger"
+					*ngIf="frequenciaInput?.errors?.required && (frequenciaInput.dirty || frequenciaInput.touched)"
+					>Informe a frequência!
+				</span>
 			</div>
 		</div>
 
-		<button [disabled]="frequenciaForm.invalid" type="button" class="btn btn-primary mr-3" (click)="salvar()">
+		<button [disabled]="frequenciaForm.invalid" class="btn btn-primary mr-3">
 			Salvar
 		</button>
-		<button class="btn btn-secondary" type="reset">Limpar</button>
 	</form>
 	<hr />
 	<h1>Registros</h1>
@@ -75,7 +122,7 @@
 		<tbody>
 			<tr *ngFor="let registro of registros">
 				<td>{{ encontrarTurma(registro.numeroTurma) }}</td>
-				<td>{{ encontrarAluno(registro.numeroTurma, registro.codigoAluno) }}</td>
+				<td>{{ encontrarAluno(registro.codigoAluno) }}</td>
 				<td>{{ registro.frequencia }}</td>
 				<td>{{ registro.nota1 }}</td>
 				<td>{{ registro.nota2 }}</td>
@@ -95,4 +142,5 @@
 	<li>
 		Média de nota 2 - <b>{{ calcularNota2Media() }}</b>
 	</li>
+	<hr />
 </div>

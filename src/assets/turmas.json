@@ -4,7 +4,7 @@
 		"nome": "Primeiro Ano do Médio – Turma A",
 		"alunos": [
 			{
-				"codigo": "1",
+				"codigo": "3212",
 				"nome": "José Silva"
 			}
 		]
@@ -14,11 +14,11 @@
 		"nome": "Primeiro Ano do Médio – Turma B",
 		"alunos": [
 			{
-				"codigo": "1",
+				"codigo": "6468",
 				"nome": "Joana Dias"
 			},
 			{
-				"codigo": "2",
+				"codigo": "5455",
 				"nome": "Alexia Santos"
 			}
 		]
@@ -28,11 +28,11 @@
 		"nome": "Segundo Ano do Médio – Turma A",
 		"alunos": [
 			{
-				"codigo": "1",
+				"codigo": "7846",
 				"nome": "Jorge Shelder"
 			},
 			{
-				"codigo": "2",
+				"codigo": "9568",
 				"nome": "Aquiles Barbosa"
 			}
 		]
@@ -42,11 +42,11 @@
 		"nome": "Segundo Ano do Médio – Turma B",
 		"alunos": [
 			{
-				"codigo": "1",
+				"codigo": "3528",
 				"nome": "Fabiana dos Santos"
 			},
 			{
-				"codigo": "2",
+				"codigo": "1520",
 				"nome": "Rodrigo Charles"
 			}
 		]
@@ -56,11 +56,11 @@
 		"nome": "Terceiro Ano do Médio – Turma A",
 		"alunos": [
 			{
-				"codigo": "1",
+				"codigo": "4685",
 				"nome": "Aline Borges"
 			},
 			{
-				"codigo": "2",
+				"codigo": "1645",
 				"nome": "Marcia Ferreira"
 			}
 		]

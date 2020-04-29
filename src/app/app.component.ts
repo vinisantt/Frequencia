@@ -1,10 +1,11 @@
 import { FrequenciaService } from "./frequencia.service";
 import { Component, OnInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
 
 @Component({
 	selector: "app-root",
 	templateUrl: "app.component.html",
-	styleUrls: [],
+	styleUrls: ["app.styles.css"],
 })
 export class AppComponent implements OnInit {
 	turmas: Array<any> = [];
@@ -12,9 +13,9 @@ export class AppComponent implements OnInit {
 	registros: Array<any> = [];
 	turma = null;
 	aluno = null;
-	frequencia: number = null;
-	nota1: number = null;
-	nota2: number = null;
+	frequencia = null;
+	nota1 = null;
+	nota2 = null;
 
 	constructor(private service: FrequenciaService) {}
 
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
 			}
 		});
 	}
-	salvar() {
+	salvar(form: NgForm) {
 		this.registros.push({
 			numeroTurma: this.turma,
 			codigoAluno: this.aluno,
@@ -37,8 +38,8 @@ export class AppComponent implements OnInit {
 			nota1: this.nota1,
 			nota2: this.nota2,
 		});
-
 		this.redefinir();
+		form.reset();
 	}
 
 	redefinir() {
@@ -53,9 +54,16 @@ export class AppComponent implements OnInit {
 		let turma = this.turmas.find((t) => t.numero == numeroTurma);
 		return `${turma.numero} - ${turma.nome}`;
 	}
-	encontrarAluno(numeroTurma, codigoAluno) {
-		let turma = this.turmas.find((t) => t.numero == numeroTurma);
-		let aluno = turma.alunos.find((a) => a.codigo == codigoAluno);
+	encontrarAluno(codigoAluno) {
+		let aluno = null;
+		this.turmas.find((t) => {
+			t.alunos.find((a) => {
+				if (a.codigo == codigoAluno) {
+					console.log(a);
+					aluno = a;
+				}
+			});
+		});
 
 		return `${aluno.codigo} - ${aluno.nome}`;
 	}
